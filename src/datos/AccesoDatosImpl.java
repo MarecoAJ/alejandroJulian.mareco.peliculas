@@ -4,6 +4,8 @@ import dominio.Pelicula;
 import excepciones.EscrituraDatosEx;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class AccesoDatosImpl implements IAccesoDatos {
 
@@ -19,20 +21,36 @@ public class AccesoDatosImpl implements IAccesoDatos {
         var archivo = new File(nombre);
         Pelicula peliculas = new Pelicula();
         List<Pelicula> lista = null;
-        var entrada = new BufferedReader(new FileReader(archivo));
-        var lectura = entrada.readLine();
-        while (lectura != null) {
-            peliculas.setNombrePelicula(lectura);
-            lista.add(peliculas);
+        BufferedReader entrada = null;
+        var lectura = "";
+
+        try {
+            entrada = new BufferedReader(new FileReader(archivo));
+            lectura = entrada.readLine();
+            while (lectura != null) {
+                peliculas.setNombrePelicula(lectura);
+                lista.add(peliculas);
+            }
+            entrada.close();
+
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(AccesoDatosImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(AccesoDatosImpl.class.getName()).log(Level.SEVERE, null, ex);
         }
-        entrada.close();
+
         return lista;
     }
 
     @Override
     public void escribir(Pelicula pelicula, String nombreArchivo, boolean anexar) {
         File archivo = new File(nombreArchivo);
-        PrintWriter salida = new PrintWriter(new FileWriter(archivo, anexar));
+        PrintWriter salida = null;
+        try {
+            salida = new PrintWriter(new FileWriter(archivo, anexar));
+        } catch (IOException ex) {
+            System.out.println("No se pudo escribir en el archivo");
+        }
         salida.print(pelicula.getNombrePelicula());
         salida.close();
     }
@@ -46,14 +64,13 @@ public class AccesoDatosImpl implements IAccesoDatos {
     @Override
     public void crear(String nombreArchivo) {
         PrintWriter salida = null;
+        File archivo = new File(nombreArchivo);
         try {
-            File archivo = new File(nombreArchivo);
             salida = new PrintWriter(archivo);
-        } catch (EscrituraDatosEx ex) {
-            java.util.logging.Logger.getLogger(AccesoDatosImpl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } finally {
-            salida.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("No se pudo crear archivo");
         }
+        salida.close();
 
     }
 
