@@ -1,6 +1,7 @@
 package datos;
 
 import dominio.Pelicula;
+import excepciones.EscrituraDatosEx;
 import java.io.*;
 import java.util.*;
 
@@ -48,7 +49,7 @@ public class AccesoDatosImpl implements IAccesoDatos {
         try {
             File archivo = new File(nombreArchivo);
             salida = new PrintWriter(archivo);
-        } catch (FileNotFoundException ex) {
+        } catch (EscrituraDatosEx ex) {
             java.util.logging.Logger.getLogger(AccesoDatosImpl.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } finally {
             salida.close();
@@ -58,7 +59,12 @@ public class AccesoDatosImpl implements IAccesoDatos {
 
     @Override
     public void borrar(String nombreArchivo) {
-
+        File archivo = new File(nombreArchivo);
+        if (archivo.delete()) {
+            System.out.println("Se elimino el archivo: " + nombreArchivo);
+        } else {
+            System.out.println("Se no se pudo eliminar el archivo: " + nombreArchivo);
+        }
     }
 
 }
