@@ -1,7 +1,6 @@
 package datos;
 
 import dominio.Pelicula;
-import excepciones.EscrituraDatosEx;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -11,9 +10,8 @@ public class AccesoDatosImpl implements IAccesoDatos {
 
     @Override
     public boolean existe(String nombreArchivo) {
-
-        return false;
-
+        File archivo = new File(nombreArchivo);
+        return archivo.exists();
     }
 
     @Override
@@ -57,8 +55,15 @@ public class AccesoDatosImpl implements IAccesoDatos {
 
     @Override
     public String buscar(String nombreArchivo, String buscar) {
+        String encontrada = "";
+        for (Pelicula pelicula : listar(nombreArchivo)) {
+            if (pelicula.getNombrePelicula().equals(buscar)) {
+                encontrada = pelicula.getNombrePelicula();
+                break;
+            }
+        }
 
-        return null;
+        return encontrada;
     }
 
     @Override
