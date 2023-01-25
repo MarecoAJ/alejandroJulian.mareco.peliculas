@@ -1,6 +1,7 @@
 package datos;
 
 import dominio.Pelicula;
+import excepciones.EscrituraDatosEx;
 import excepciones.LecturaDatosEx;
 import java.io.*;
 import java.util.*;
@@ -43,16 +44,18 @@ public class AccesoDatosImpl implements IAccesoDatos {
     }
 
     @Override
-    public void escribir(Pelicula pelicula, String nombreArchivo, boolean anexar) {
+    public void escribir(Pelicula pelicula, String nombreArchivo, boolean anexar) throws EscrituraDatosEx {
         File archivo = new File(nombreArchivo);
         PrintWriter salida = null;
         try {
             salida = new PrintWriter(new FileWriter(archivo, anexar));
+            salida.print(pelicula.toString());
+            salida.close();
         } catch (IOException ex) {
-            System.out.println("No se pudo escribir en el archivo");
+           ex.printStackTrace();
+           throw new EscrituraDatosEx("excepcion al escribir: " + ex.getMessage());
         }
-        salida.print(pelicula.getNombrePelicula());
-        salida.close();
+        
     }
 
     @Override

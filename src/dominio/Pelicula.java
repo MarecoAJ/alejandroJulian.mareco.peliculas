@@ -22,10 +22,7 @@ public class Pelicula {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Pelicula{nombrePelicula=").append(nombrePelicula);
-        sb.append('}');
-        return sb.toString();
+       return this.nombrePelicula;
     }
     
     
