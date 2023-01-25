@@ -1,12 +1,9 @@
 package datos;
 
 import dominio.Pelicula;
-import excepciones.EscrituraDatosEx;
-import excepciones.LecturaDatosEx;
+import excepciones.*;
 import java.io.*;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class AccesoDatosImpl implements IAccesoDatos {
 
@@ -89,15 +86,15 @@ public class AccesoDatosImpl implements IAccesoDatos {
     }
 
     @Override
-    public void crear(String nombreArchivo) {
-        PrintWriter salida = null;
-        File archivo = new File(nombreArchivo);
+    public void crear(String nombreArchivo) throws AccesoDatosEx {
+
         try {
-            salida = new PrintWriter(archivo);
+            var salida = new PrintWriter(new File(nombreArchivo));
+            salida.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("No se pudo crear archivo");
+            ex.printStackTrace();
+            throw new AccesoDatosEx("excepcion al crear archivo " + ex.getMessage());
         }
-        salida.close();
 
     }
 
