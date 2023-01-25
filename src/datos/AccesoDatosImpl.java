@@ -84,7 +84,7 @@ public class AccesoDatosImpl implements IAccesoDatos {
             throw new LecturaDatosEx("excepcion al buscar: " + ex.getMessage());
         }
 
-        return encontrada;
+        return resultado;
     }
 
     @Override
