@@ -52,20 +52,36 @@ public class AccesoDatosImpl implements IAccesoDatos {
             salida.print(pelicula.toString());
             salida.close();
         } catch (IOException ex) {
-           ex.printStackTrace();
-           throw new EscrituraDatosEx("excepcion al escribir: " + ex.getMessage());
+            ex.printStackTrace();
+            throw new EscrituraDatosEx("excepcion al escribir: " + ex.getMessage());
         }
-        
+
     }
 
     @Override
-    public String buscar(String nombreArchivo, String buscar) {
-        String encontrada = "";
-        for (Pelicula pelicula : listar(nombreArchivo)) {
-            if (pelicula.getNombrePelicula().equals(buscar)) {
-                encontrada = pelicula.getNombrePelicula();
-                break;
+    public String buscar(String nombreArchivo, String buscar) throws LecturaDatosEx {
+        var archivo = new File(nombreArchivo);
+        String resultado = null;
+        try {
+            var entrada = new BufferedReader(new FileReader(archivo));
+            String linea = null;
+            linea = entrada.readLine();
+            int indice = 1;
+
+            while (linea != null) {
+                if (buscar != null && buscar.equalsIgnoreCase(linea)) {
+                    resultado = "pelicula " + linea + " encontrdan el indice:  " + indice;
+                    break;
+                }
+                linea = entrada.readLine();
+                indice++;
             }
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            throw new LecturaDatosEx("excepcion al buscar: " + ex.getMessage());
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            throw new LecturaDatosEx("excepcion al buscar: " + ex.getMessage());
         }
 
         return encontrada;
