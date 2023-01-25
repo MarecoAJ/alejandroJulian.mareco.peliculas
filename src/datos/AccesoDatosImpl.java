@@ -76,6 +76,7 @@ public class AccesoDatosImpl implements IAccesoDatos {
                 linea = entrada.readLine();
                 indice++;
             }
+            entrada.close();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
             throw new LecturaDatosEx("excepcion al buscar: " + ex.getMessage());
