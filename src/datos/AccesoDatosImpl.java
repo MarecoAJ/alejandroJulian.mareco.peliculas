@@ -100,12 +100,10 @@ public class AccesoDatosImpl implements IAccesoDatos {
 
     @Override
     public void borrar(String nombreArchivo) {
-        File archivo = new File(nombreArchivo);
-        if (archivo.delete()) {
-            System.out.println("Se elimino el archivo: " + nombreArchivo);
-        } else {
-            System.out.println("Se no se pudo eliminar el archivo: " + nombreArchivo);
+        var archivo = new File(nombreArchivo);
+        if (archivo.exists()) {
+            archivo.delete();
         }
+        System.out.println("Se elimino el archivo: " + nombreArchivo);
     }
-
 }
