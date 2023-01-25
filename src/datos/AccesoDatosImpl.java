@@ -1,6 +1,7 @@
 package datos;
 
 import dominio.Pelicula;
+import excepciones.LecturaDatosEx;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -15,26 +16,27 @@ public class AccesoDatosImpl implements IAccesoDatos {
     }
 
     @Override
-    public List<Pelicula> listar(String nombre) {
+    public List<Pelicula> listar(String nombre) throws LecturaDatosEx {
         var archivo = new File(nombre);
-        Pelicula peliculas = new Pelicula();
-        List<Pelicula> lista = null;
-        BufferedReader entrada = null;
-        var lectura = "";
+        List<Pelicula> lista = new ArrayList<>();
 
         try {
-            entrada = new BufferedReader(new FileReader(archivo));
+
+            var entrada = new BufferedReader(new FileReader(archivo));
+            String lectura = null;
             lectura = entrada.readLine();
             while (lectura != null) {
-                peliculas.setNombrePelicula(lectura);
+                Pelicula peliculas = new Pelicula(lectura);
                 lista.add(peliculas);
+                lectura = entrada.readLine();
             }
             entrada.close();
-
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(AccesoDatosImpl.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            throw new LecturaDatosEx("excepcion al listar peliculas: " + ex.getMessage());
         } catch (IOException ex) {
-            Logger.getLogger(AccesoDatosImpl.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            throw new LecturaDatosEx("excepcion al listar peliculas: " + ex.getMessage());
         }
 
         return lista;
