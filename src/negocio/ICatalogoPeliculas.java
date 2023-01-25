@@ -1,6 +1,6 @@
 package negocio;
 
-public interface CatalogoPeliculas {
+public interface ICatalogoPeliculas {
     
     String NOMBRE_RECURSO = "peliculas.txt";
     

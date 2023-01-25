@@ -1,7 +1,7 @@
 
 package negocio;
 
-public class CatalogoPeliculasImpl implements CatalogoPeliculas{
+public class CatalogoPeliculasImpl implements ICatalogoPeliculas{
 
     public CatalogoPeliculasImpl() {
     }
