@@ -1,13 +1,15 @@
 package negocio;
 
 public interface CatalogoPeliculas {
+    
+    String NOMBRE_RECURSO = "peliculas.txt";
+    
+    void agregarPelicula(String nombrePelicula);
 
-    void agrgarPelicula(String nombrePelicula, String nombreArchivo);
+    void listarPeliculas();
 
-    void listarPeliculas(String nombreArchivo);
+    void buscarPelicula( String buscar);
 
-    void buscarPelicula(String nombreArchivo, String buscar);
-
-    void iniciarArchivo(String nombreArchivo);
+    void iniciarCatalogoPeliculas();
 
 }
